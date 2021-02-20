@@ -66,7 +66,7 @@ public class EnderecoVO {
 
     @Override
     public String toString() {
-        return "EnderecoVO{" + "logradouro=" + logradouro + ", numero=" + numero + ", bairro=" + bairro + ", cidade=" + cidade + ", uf=" + uf + '}';
+        return "logradouro = " + logradouro + "|  numero = " + numero + "|  bairro = " + bairro + "|  cidade = " + cidade + "|  uf = " + uf;
     }
 
 }

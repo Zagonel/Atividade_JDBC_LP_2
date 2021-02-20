@@ -50,7 +50,7 @@ public class DisciplinaVO {
 
     @Override
     public String toString() {
-        return "DisciplinaVO{" + "nome=" + nome + ", cargahoraria=" + cargahoraria + ", semestre=" + semestre + ", codigo=" + codigo + '}';
+        return "nome = " + nome + "|  cargahoraria = " + cargahoraria + "|  semestre = " + semestre + "|  codigo = " + codigo;
     }
 
 }

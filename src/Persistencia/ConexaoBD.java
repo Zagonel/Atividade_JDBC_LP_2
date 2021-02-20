@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class ConexaoBD {
 
-    private static final String URL = "jdbc:postgresql://localhost:5432/pessoas";
+    private static final String URL = "jdbc:postgresql://localhost:5432/academico";
     private static final String USUARIO = "postgres";
     private static final String SENHA = "";
     private static final String DRIVER = "org.postgresql.Driver";

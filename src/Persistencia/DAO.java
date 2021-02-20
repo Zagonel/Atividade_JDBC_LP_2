@@ -1,6 +1,7 @@
 package Persistencia;
 
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 public class DAO {
 
@@ -18,6 +19,7 @@ public class DAO {
     public void confirmarTransacao() throws PersistenciaException {
         try {
             this.conexao.IniciarConexao().commit();
+            JOptionPane.showMessageDialog(null, "Transação confirmada");
         } catch (SQLException e) {
             throw new PersistenciaException("Transação nao confirmada");
         }
@@ -30,6 +32,5 @@ public class DAO {
             throw new PersistenciaException("Erro ao cancelar a transação");
         }
     }
-    
 
 }

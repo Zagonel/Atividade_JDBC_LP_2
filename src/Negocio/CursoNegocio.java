@@ -26,9 +26,7 @@ public class CursoNegocio {
         try {
             if (cursoDAO.incluir(cursoVO) == 0) {
                 throw new NegocioExeption("Inclusão não realizada");
-            } else {
-                cursoDAO.confirmarTransacao();
-            }
+            } 
         } catch (PersistenciaException e) {
             throw new NegocioExeption("Erro ao incluir o curso - " + e.getMessage());
         }
@@ -42,9 +40,7 @@ public class CursoNegocio {
         try {
             if (cursoDAO.alterar(cursoVO) == 0) {
                 throw new NegocioExeption("Alteração não realizada!");
-            } else {
-                cursoDAO.confirmarTransacao();
-            }
+            } 
         } catch (PersistenciaException e) {
             throw new NegocioExeption("Erro ao alterar o curso " + e.getMessage());
         }
@@ -54,8 +50,6 @@ public class CursoNegocio {
         try {
             if (cursoDAO.excluir(codigo) == 0) {
                 throw new NegocioExeption("Alteração não realizada!");
-            } else {
-                cursoDAO.confirmarTransacao();
             }
         } catch (PersistenciaException e) {
             throw new NegocioExeption("Erro ao excluir o curso " + e.getMessage());
@@ -79,6 +73,19 @@ public class CursoNegocio {
         }
     }
 
+    public int verificaCurso() {
+        int retorno;
+        retorno = cursoDAO.verificaCurso();
+
+        return retorno;
+    }
+
+    // Busca todos os cursos cadastrados no banco de dados em formato de lista
+    public List<CursoVO> buscaTodosCursos() throws PersistenciaException {
+        return cursoDAO.buscarListaCurso();
+    }
+
+    //Verifica se há cursos cadastrados no banco de dados
     public String validarDados(CursoVO cursoVO) {
         String mensagemErro = "";
 

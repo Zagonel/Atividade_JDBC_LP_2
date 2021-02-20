@@ -22,11 +22,11 @@ public class AlunoDAO extends DAO{
         super(conexao);
         this.cursoDAO = new CursoDAO(conexao);
         try {
-            this.comandoIncluir = conexao.IniciarConexao().prepareStatement("INSERT INTO aluno (nome , nomemae , nomepai , sexo, logradouro, numero, bairro, cidade, uf, curso) VALUES (?,?,?,?,?,?,?,?,?,?");
-            this.comandoAlterar = conexao.IniciarConexao().prepareStatement("UPDATE aluno SET nome=?, nomemae=?, nomepai=?, sexo=?, logradouro=?, numero=?, bairro=?, cidade=?, uf=?, curso=?, WHERE matricula=?");
-            this.comandoExcluir = conexao.IniciarConexao().prepareStatement("DELETE FROM aluno WHERE matricula=?");
-            this.comandoBuscarPorMatricula = conexao.IniciarConexao().prepareStatement("SELECT * FROM aluno WHERE matricula=?");
-            this.comandoBuscarPorNome = conexao.IniciarConexao().prepareStatement("SELECT * FROM aluno WHERE UPPER(nome) LIKE ? ORDER BY NOME LIMIT 10*");
+            this.comandoIncluir = conexao.IniciarConexao().prepareStatement("INSERT INTO aluno (nome , nomemae , nomepai , sexo, logradouro, numero, bairro, cidade, uf, curso) VALUES (?,?,?,?,?,?,?,?,?,?) ");
+            this.comandoAlterar = conexao.IniciarConexao().prepareStatement("UPDATE aluno SET nome=?, nomemae=?, nomepai=?, sexo=?, logradouro=?, numero=?, bairro=?, cidade=?, uf=?, curso=?, WHERE matricula=? ");
+            this.comandoExcluir = conexao.IniciarConexao().prepareStatement("DELETE FROM aluno WHERE matricula=? ");
+            this.comandoBuscarPorMatricula = conexao.IniciarConexao().prepareStatement("SELECT * FROM aluno WHERE matricula=? ");
+            this.comandoBuscarPorNome = conexao.IniciarConexao().prepareStatement("SELECT * FROM aluno WHERE UPPER (nome) LIKE ? ");
         } catch (SQLException e) {
             throw new PersistenciaException("ERRO ao iniciar camada de percistencia" + e.getMessage());
         }
@@ -47,7 +47,7 @@ public class AlunoDAO extends DAO{
             comandoIncluir.setInt(10, alunoVO.getCurso().getCodigo());
             retorno = comandoIncluir.executeUpdate();
         } catch (SQLException ex) {
-            throw new PersistenciaException("Erro ao incluir novo aluno − " + ex.getMessage());
+            throw new PersistenciaException("Erro ao incluir novo aluno − ERRO ALUNODAO " + ex.getMessage());
         }
         return retorno;
     }
@@ -106,7 +106,7 @@ public class AlunoDAO extends DAO{
                 alunoVO.getEndereco().setNumero(rs.getInt("numero"));
                 alunoVO.getEndereco().setLogradouro(rs.getString("logradouro"));
                 alunoVO.getEndereco().setUf(EnumUF.valueOf(rs.getString("uf")));
-                alunoVO.setCurso(this.cursoDAO.BuscarPorCodigo(matricula));
+                alunoVO.setCurso(this.cursoDAO.BuscarPorCodigo(rs.getInt("curso")));
             }
         } catch (SQLException e) {
             throw new PersistenciaException("Erro ao buscar por matricula" + e.getMessage());
@@ -131,6 +131,7 @@ public class AlunoDAO extends DAO{
                 aluno.setNomePai(rs.getString("nomepai"));
                 aluno.setSexo(EnumSexo.values()[rs.getInt("sexo")]);
                 aluno.getEndereco().setBairro(rs.getString("bairro"));
+                aluno.getEndereco().setLogradouro(rs.getString("logradouro"));
                 aluno.getEndereco().setCidade(rs.getString("cidade"));
                 aluno.getEndereco().setNumero(rs.getInt("numero"));
                 aluno.getEndereco().setUf(EnumUF.valueOf(rs.getString("uf")));

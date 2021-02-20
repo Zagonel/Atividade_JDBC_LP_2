@@ -33,8 +33,10 @@ public class CursoVO {
 
     @Override
     public String toString() {
-        return this.nome;
+        return "codigo = " + codigo + "|  nome = " + nome;
     }
+
+
 
     @Override
     public boolean equals(Object obj) {

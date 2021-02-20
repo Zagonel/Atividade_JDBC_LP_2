@@ -78,7 +78,7 @@ public class AlunoVO {
 
     @Override
     public String toString() {
-        return "AlunoVO{" + "matricula=" + matricula + ", nome=" + nome + '}';
+        return "matricula = " + matricula + "  " + "|  nome = " + nome + "  " + "|  nomeMae = " + nomeMae + "  " + "|  nomePai = " + nomePai + "  " + "|  sexo = " + sexo + "  " + "|  endereco : " + endereco + "  " + "|  curso : " + curso;
     }
 
     @Override

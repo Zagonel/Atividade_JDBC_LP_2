@@ -28,8 +28,6 @@ public class AlunoNegocio {
         try {
             if (alunoDAO.incluir(alunoVO) == 0) {
                 throw new NegocioExeption("inclusão não realizada");
-            } else {
-                alunoDAO.confirmarTransacao();
             }
         } catch (PersistenciaException e) {
             throw new NegocioExeption("Erro ao incluir o aluno - " + e.getMessage());
@@ -46,9 +44,7 @@ public class AlunoNegocio {
         try {
             if (alunoDAO.alterar(alunoVO) == 0) {
                 throw new NegocioExeption("alteração não realizada");
-            } else {
-                alunoDAO.confirmarTransacao();
-            }
+            } 
         } catch (PersistenciaException e) {
             throw new NegocioExeption("Erro ao alterar o aluno - " + e.getMessage());
         }
@@ -59,8 +55,6 @@ public class AlunoNegocio {
         try {
             if (alunoDAO.excluir(codigo) == 0) {
                 throw new NegocioExeption("exclusão não realizada");
-            } else {
-                alunoDAO.confirmarTransacao();
             }
         } catch (PersistenciaException e) {
             throw new NegocioExeption("Erro ao excluir aluno");

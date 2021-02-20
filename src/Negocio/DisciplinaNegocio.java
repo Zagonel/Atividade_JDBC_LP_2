@@ -29,9 +29,7 @@ public class DisciplinaNegocio {
         try {
             if (disciplinaDAO.incluir(disciplinaVO) == 0) {
                 throw new NegocioExeption("inclusão não realizada");
-            } else {
-                disciplinaDAO.confirmarTransacao();
-            }
+            } 
         } catch (PersistenciaException e) {
             throw new NegocioExeption("Erro ao incluir o aluno - " + e.getMessage());
         }
@@ -47,9 +45,7 @@ public class DisciplinaNegocio {
         try {
             if (disciplinaDAO.alterar(disciplinaVO) == 0) {
                 throw new NegocioExeption("alteração não realizada");
-            } else {
-                disciplinaDAO.confirmarTransacao();
-            }
+            } 
         } catch (PersistenciaException e) {
             throw new NegocioExeption("Erro ao alterar o aluno - " + e.getMessage());
         }
@@ -59,9 +55,7 @@ public class DisciplinaNegocio {
         try {
             if (disciplinaDAO.excluir(codigo) == 0) {
                 throw new NegocioExeption("exclusão não realizada");
-            } else {
-                disciplinaDAO.confirmarTransacao();
-            }
+            } 
         } catch (PersistenciaException e) {
             throw new NegocioExeption("Erro ao excluir o aluno - " + e.getMessage());
         }
