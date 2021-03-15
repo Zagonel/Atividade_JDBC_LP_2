@@ -23,17 +23,11 @@ public class CursoDAO extends DAO {
         super(conexao);
         try {
             this.comandoIncluir = conexao.IniciarConexao().prepareStatement("INSERT INTO curso (nome) VALUES (?)");
-
             this.comandoAlterar = conexao.IniciarConexao().prepareStatement("UPDATE curso SET nome=? WHERE codigo = ?");
-
             this.comandoExcluir = conexao.IniciarConexao().prepareStatement("DELETE FROM curso WHERE codigo = ?");
-
             this.comandoBuscarPorCodigo = conexao.IniciarConexao().prepareStatement("SELECT * FROM curso WHERE codigo = ?");
-
             this.comandoBuscarPorNome = conexao.IniciarConexao().prepareStatement("SELECT * FROM curso WHERE UPPER(nome) LIKE ? ");
-
             this.comandoBuscarTudo = conexao.IniciarConexao().prepareStatement("SELECT * FROM curso");
-
         } catch (SQLException e) {
             throw new PersistenciaException("Erro ao iniciar a camada de percistencia -" + e.getMessage());
         }

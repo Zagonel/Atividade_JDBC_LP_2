@@ -6,6 +6,8 @@ import Persistencia.PersistenciaException;
 import Vo.DisciplinaVO;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DisciplinaNegocio {
 
@@ -74,6 +76,14 @@ public class DisciplinaNegocio {
             return disciplinaDAO.buscarPorCodigo(codigo);
         } catch (PersistenciaException e) {
             throw new NegocioExeption("Erro ao pesquisar por codigo" + e.getMessage());
+        }
+    }
+    
+    public List<DisciplinaVO> buscaTodasDisciplinas() throws NegocioExeption{
+        try {
+            return disciplinaDAO.buscarListaDisciplina();
+        } catch (PersistenciaException ex) {
+           throw new NegocioExeption("Erro ao buscar Disciplinas" + ex.getMessage());
         }
     }
 

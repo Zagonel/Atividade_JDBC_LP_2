@@ -5,6 +5,8 @@ import Persistencia.CursoDAO;
 import Persistencia.PersistenciaException;
 import Vo.CursoVO;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CursoNegocio {
 
@@ -26,7 +28,7 @@ public class CursoNegocio {
         try {
             if (cursoDAO.incluir(cursoVO) == 0) {
                 throw new NegocioExeption("Inclusão não realizada");
-            } 
+            }
         } catch (PersistenciaException e) {
             throw new NegocioExeption("Erro ao incluir o curso - " + e.getMessage());
         }
@@ -40,7 +42,7 @@ public class CursoNegocio {
         try {
             if (cursoDAO.alterar(cursoVO) == 0) {
                 throw new NegocioExeption("Alteração não realizada!");
-            } 
+            }
         } catch (PersistenciaException e) {
             throw new NegocioExeption("Erro ao alterar o curso " + e.getMessage());
         }
@@ -81,8 +83,13 @@ public class CursoNegocio {
     }
 
     // Busca todos os cursos cadastrados no banco de dados em formato de lista
-    public List<CursoVO> buscaTodosCursos() throws PersistenciaException {
-        return cursoDAO.buscarListaCurso();
+    public List<CursoVO> buscaTodosCursos() throws NegocioExeption {
+
+        try {
+            return cursoDAO.buscarListaCurso();
+        } catch (PersistenciaException ex) {
+            throw new NegocioExeption("Erro ao buscar cursos" + ex.getMessage());
+        }
     }
 
     //Verifica se há cursos cadastrados no banco de dados

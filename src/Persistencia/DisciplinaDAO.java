@@ -14,6 +14,7 @@ public class DisciplinaDAO extends DAO {
     private PreparedStatement comandoAlterar;
     private PreparedStatement comandoBuscarPorCodigo;
     private PreparedStatement comandoBuscarPorNome;
+    private PreparedStatement comandoBuscarTudo;
     private CursoDAO cursoDAO;
 
     public DisciplinaDAO(ConexaoBD conexao) throws PersistenciaException {
@@ -26,6 +27,7 @@ public class DisciplinaDAO extends DAO {
             this.comandoExcluir = conexao.IniciarConexao().prepareStatement("DELETE FROM disciplina WHERE codigo=?");
             this.comandoBuscarPorCodigo = conexao.IniciarConexao().prepareStatement("SELECT * FROM disciplina WHERE codigo=?");
             this.comandoBuscarPorNome = conexao.IniciarConexao().prepareStatement("SELECT * FROM disciplina WHERE UPPER(nome) LIKE ? ORDER BY NOME LIMIT 10*");
+            this.comandoBuscarTudo = conexao.IniciarConexao().prepareStatement("SELECT * FROM disciplina");
         } catch (SQLException e) {
             throw new PersistenciaException("Erro ao iniciar a percistencia " + e.getMessage());
         }
@@ -116,6 +118,27 @@ public class DisciplinaDAO extends DAO {
             throw new PersistenciaException("Erro ao buscar por nome");
         }
         return listaDisciplinas;
+    }
+
+    public List<DisciplinaVO> buscarListaDisciplina() throws PersistenciaException {
+        List<DisciplinaVO> listaDisciplina = new ArrayList<>();
+        DisciplinaVO disciplinaVO;
+
+        try {
+            ResultSet rs = comandoBuscarTudo.executeQuery();
+            while (rs.next()) {
+                disciplinaVO = new DisciplinaVO();
+                disciplinaVO.setCodigo(rs.getInt("codigo"));
+                disciplinaVO.setNome(rs.getString("nome"));
+                disciplinaVO.setCurso(this.cursoDAO.BuscarPorCodigo(rs.getInt("curso")));
+                disciplinaVO.setCargahoraria(rs.getInt("cargahoraria"));
+                disciplinaVO.setSemestre(rs.getInt("semestre"));
+                listaDisciplina.add(disciplinaVO);
+            }
+        } catch (SQLException e) {
+            throw new PersistenciaException("Erro na seleção por nome − " + e.getMessage());
+        }
+        return listaDisciplina;
     }
 
 }

@@ -9,13 +9,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AlunoDAO extends DAO{
+public class AlunoDAO extends DAO {
 
     private PreparedStatement comandoIncluir;
     private PreparedStatement comandoExcluir;
     private PreparedStatement comandoAlterar;
     private PreparedStatement comandoBuscarPorMatricula;
     private PreparedStatement comandoBuscarPorNome;
+    private PreparedStatement comandoBuscarTudo;
     private CursoDAO cursoDAO;
 
     public AlunoDAO(ConexaoBD conexao) throws PersistenciaException {
@@ -27,6 +28,7 @@ public class AlunoDAO extends DAO{
             this.comandoExcluir = conexao.IniciarConexao().prepareStatement("DELETE FROM aluno WHERE matricula=? ");
             this.comandoBuscarPorMatricula = conexao.IniciarConexao().prepareStatement("SELECT * FROM aluno WHERE matricula=? ");
             this.comandoBuscarPorNome = conexao.IniciarConexao().prepareStatement("SELECT * FROM aluno WHERE UPPER (nome) LIKE ? ");
+            this.comandoBuscarTudo = conexao.IniciarConexao().prepareStatement("SELECT * FROM aluno");
         } catch (SQLException e) {
             throw new PersistenciaException("ERRO ao iniciar camada de percistencia" + e.getMessage());
         }
@@ -136,12 +138,39 @@ public class AlunoDAO extends DAO{
                 aluno.getEndereco().setNumero(rs.getInt("numero"));
                 aluno.getEndereco().setUf(EnumUF.valueOf(rs.getString("uf")));
                 aluno.setCurso(this.cursoDAO.BuscarPorCodigo(rs.getInt("curso")));
-                
+
                 listaAlunos.add(aluno);
             }
         } catch (SQLException e) {
             throw new PersistenciaException("Erro ao buscar por nome " + e.getMessage());
         }
         return listaAlunos;
+    }
+
+    public List<AlunoVO> buscarListaAluno() throws PersistenciaException {
+        List<AlunoVO> listaAluno = new ArrayList<>();
+        AlunoVO alunoVO;
+
+        try {
+            ResultSet rs = comandoBuscarTudo.executeQuery();
+            while (rs.next()) {
+                alunoVO = new AlunoVO();
+                alunoVO.setMatricula(rs.getInt("matricula"));
+                alunoVO.setNome(rs.getString("nome"));
+                alunoVO.setNomeMae(rs.getString("nomemae"));
+                alunoVO.setNomePai(rs.getString("nomepai"));
+                alunoVO.setSexo(EnumSexo.values()[rs.getInt("sexo")]);
+                alunoVO.getEndereco().setBairro(rs.getString("bairro"));
+                alunoVO.getEndereco().setLogradouro(rs.getString("logradouro"));
+                alunoVO.getEndereco().setCidade(rs.getString("cidade"));
+                alunoVO.getEndereco().setNumero(rs.getInt("numero"));
+                alunoVO.getEndereco().setUf(EnumUF.valueOf(rs.getString("uf")));
+                alunoVO.setCurso(this.cursoDAO.BuscarPorCodigo(rs.getInt("curso")));
+                listaAluno.add(alunoVO);
+            }
+        } catch (SQLException e) {
+            throw new PersistenciaException("Erro na seleção por nome − " + e.getMessage());
+        }
+        return listaAluno;
     }
 }

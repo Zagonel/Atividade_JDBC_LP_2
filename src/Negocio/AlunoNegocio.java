@@ -44,7 +44,7 @@ public class AlunoNegocio {
         try {
             if (alunoDAO.alterar(alunoVO) == 0) {
                 throw new NegocioExeption("alteração não realizada");
-            } 
+            }
         } catch (PersistenciaException e) {
             throw new NegocioExeption("Erro ao alterar o aluno - " + e.getMessage());
         }
@@ -76,6 +76,14 @@ public class AlunoNegocio {
             return alunoDAO.BuscaPorMatricula(codigo);
         } catch (PersistenciaException e) {
             throw new NegocioExeption("Erro ao pesquisar aluno por matricula" + e.getMessage());
+        }
+    }
+
+    public List<AlunoVO> buscaTodosAlunos() throws NegocioExeption {
+        try {
+            return alunoDAO.buscarListaAluno();
+        } catch (PersistenciaException ex) {
+            throw new NegocioExeption("Erro ao buscar Disciplinas" + ex.getMessage());
         }
     }
 
