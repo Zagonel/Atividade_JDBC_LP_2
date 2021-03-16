@@ -3,6 +3,7 @@ package Negocio;
 import Persistencia.ConexaoBD;
 import Persistencia.DisciplinaDAO;
 import Persistencia.PersistenciaException;
+import Vo.CursoVO;
 import Vo.DisciplinaVO;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class DisciplinaNegocio {
         try {
             if (disciplinaDAO.incluir(disciplinaVO) == 0) {
                 throw new NegocioExeption("inclusão não realizada");
-            } 
+            }
         } catch (PersistenciaException e) {
             throw new NegocioExeption("Erro ao incluir o aluno - " + e.getMessage());
         }
@@ -47,7 +48,7 @@ public class DisciplinaNegocio {
         try {
             if (disciplinaDAO.alterar(disciplinaVO) == 0) {
                 throw new NegocioExeption("alteração não realizada");
-            } 
+            }
         } catch (PersistenciaException e) {
             throw new NegocioExeption("Erro ao alterar o aluno - " + e.getMessage());
         }
@@ -57,7 +58,7 @@ public class DisciplinaNegocio {
         try {
             if (disciplinaDAO.excluir(codigo) == 0) {
                 throw new NegocioExeption("exclusão não realizada");
-            } 
+            }
         } catch (PersistenciaException e) {
             throw new NegocioExeption("Erro ao excluir o aluno - " + e.getMessage());
         }
@@ -78,12 +79,29 @@ public class DisciplinaNegocio {
             throw new NegocioExeption("Erro ao pesquisar por codigo" + e.getMessage());
         }
     }
-    
-    public List<DisciplinaVO> buscaTodasDisciplinas() throws NegocioExeption{
+
+    public List<DisciplinaVO> buscaTodasDisciplinas() throws NegocioExeption {
         try {
             return disciplinaDAO.buscarListaDisciplina();
         } catch (PersistenciaException ex) {
-           throw new NegocioExeption("Erro ao buscar Disciplinas" + ex.getMessage());
+            throw new NegocioExeption("Erro ao buscar Disciplinas" + ex.getMessage());
+        }
+    }
+
+    public List<DisciplinaVO> buscaTodosDisciplinasDeCurso(CursoVO curso) throws NegocioExeption {
+        try {
+            List<DisciplinaVO> lista = buscaTodasDisciplinas();
+            List<DisciplinaVO> listaResultado = new ArrayList();
+
+            for (int i = 0; i < lista.size(); i++) {
+                if (lista.get(i).getCurso().getCodigo() == curso.getCodigo()) {
+                    listaResultado.add(lista.get(i));
+                }
+            }
+            return listaResultado;
+
+        } catch (NegocioExeption ex) {
+            throw new NegocioExeption("Erro ao buscar os disciplinas relacionadas a curso relacionados ao curso" + ex.getMessage());
         }
     }
 

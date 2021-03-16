@@ -4,7 +4,11 @@ import Persistencia.AlunoDAO;
 import Persistencia.ConexaoBD;
 import Persistencia.PersistenciaException;
 import Vo.AlunoVO;
+import Vo.CursoVO;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AlunoNegocio {
 
@@ -84,6 +88,23 @@ public class AlunoNegocio {
             return alunoDAO.buscarListaAluno();
         } catch (PersistenciaException ex) {
             throw new NegocioExeption("Erro ao buscar Disciplinas" + ex.getMessage());
+        }
+    }
+
+    public List<AlunoVO> buscaTodosAlunosDeCurso(CursoVO curso) throws NegocioExeption {
+        try {
+            List<AlunoVO> lista = buscaTodosAlunos();
+            List<AlunoVO> listaResultado = new ArrayList();
+
+            for (int i = 0; i < lista.size(); i++) {
+                if (lista.get(i).getCurso().getCodigo() == curso.getCodigo()) {
+                    listaResultado.add(lista.get(i));
+                }
+            }
+            return listaResultado;
+
+        } catch (NegocioExeption ex) {
+            throw new NegocioExeption("Erro ao buscar os alunos relacionados ao curso" + ex.getMessage());
         }
     }
 

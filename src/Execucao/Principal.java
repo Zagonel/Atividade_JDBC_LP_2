@@ -103,9 +103,10 @@ public class Principal {
                     + "|  3 - Excluir\n"
                     + "|  4 - Pesquisar por Nome\n"
                     + "|  5 - Pesquisar por Matricula\n"
-                    + "|  6 - BuscarTodosAlunos\n"
-                    + "|  7 - Voltar Menu Principal\n"
-                    + "|  8 - Sair\n"
+                    + "|  6 - Buscar Todos os Alunos\n"
+                    + "|  7 - Buscar Todos os Alunos De um curso\n"
+                    + "|  8 - Voltar Menu Principal\n"
+                    + "|  9 - Sair\n"
                     + "|--------------------------------------------------------------|\n\n"
                     + "Digite a opção requerida:"));
         } catch (NumberFormatException e) {
@@ -140,9 +141,13 @@ public class Principal {
                 menuAluno();
                 break;
             case 7:
-                menuPrincipal();
+                buscarTodosAlunosDeCurso();
+                menuAluno();
                 break;
             case 8:
+                menuPrincipal();
+                break;
+            case 9:
                 System.exit(0);
                 break;
             default:
@@ -300,6 +305,28 @@ public class Principal {
         } catch (NegocioExeption ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public static void buscarTodosAlunosDeCurso() {
+        CursoVO curso = new CursoVO();
+        try {
+
+            CursoNegocio cursoAux = new CursoNegocio();
+            AlunoNegocio aluno = new AlunoNegocio();
+            curso = (CursoVO) JOptionPane.showInputDialog(null, "Escolha o curso do Aluno", "Leitura de Dados", JOptionPane.QUESTION_MESSAGE, null, cursoAux.buscaTodosCursos().toArray(), curso.getCodigo());
+
+            List<AlunoVO> listaResultado = new ArrayList();
+
+            listaResultado = aluno.buscaTodosAlunosDeCurso(curso);
+
+            for (int i = 0; i < listaResultado.size(); i++) {
+                System.out.println(listaResultado.get(i));
+            }
+
+        } catch (NegocioExeption ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
     //Fim opções de Aluno
 
@@ -471,8 +498,9 @@ public class Principal {
                     + "|  4 - Pesquisar por Nome\n"
                     + "|  5 - Pesquisar por Codigo\n"
                     + "|  6 - Pesquisar todas Disciplinas\n"
-                    + "|  7 - Voltar Menu Principal\n"
-                    + "|  8 - Sair\n"
+                    + "|  7 - Pesquisar todas Disciplinas de um Curso\n"
+                    + "|  8 - Voltar Menu Principal\n"
+                    + "|  9 - Sair\n"
                     + "|--------------------------------------------------------------|\n\n"
                     + "Digite a opção requerida:"));
         } catch (NumberFormatException e) {
@@ -507,9 +535,13 @@ public class Principal {
                 menuDisciplina();
                 break;
             case 7:
-                menuPrincipal();
+                buscarTodasDisciplinasDeCurso();
+                menuDisciplina();
                 break;
             case 8:
+                menuPrincipal();
+                break;
+            case 9:
                 System.exit(0);
                 break;
             default:
@@ -628,6 +660,27 @@ public class Principal {
 
             for (int i = 0; i < listaDisciplinas.size(); i++) {
                 System.out.println("Nome: " + listaDisciplinas.get(i).getNome() + " Codigo: " + listaDisciplinas.get(i).getCodigo() + " Semestre: " + listaDisciplinas.get(i).getSemestre() + " Carga Horaria: " + listaDisciplinas.get(i).getCargahoraria() + "\n");
+            }
+
+        } catch (NegocioExeption ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void buscarTodasDisciplinasDeCurso() {
+        CursoVO curso = new CursoVO();
+        try {
+
+            CursoNegocio cursoAux = new CursoNegocio();
+            DisciplinaNegocio disciplina = new DisciplinaNegocio();
+            curso = (CursoVO) JOptionPane.showInputDialog(null, "Escolha o curso do Aluno", "Leitura de Dados", JOptionPane.QUESTION_MESSAGE, null, cursoAux.buscaTodosCursos().toArray(), curso.getCodigo());
+
+            List<DisciplinaVO> listaResultado = new ArrayList();
+
+            listaResultado = disciplina.buscaTodosDisciplinasDeCurso(curso);
+
+            for (int i = 0; i < listaResultado.size(); i++) {
+                System.out.println(listaResultado.get(i));
             }
 
         } catch (NegocioExeption ex) {
