@@ -3,6 +3,7 @@ package Negocio;
 import Persistencia.ConexaoBD;
 import Persistencia.DisciplinaDAO;
 import Persistencia.PersistenciaException;
+import Vo.AlunoVO;
 import Vo.CursoVO;
 import Vo.DisciplinaVO;
 import java.util.ArrayList;
@@ -95,6 +96,23 @@ public class DisciplinaNegocio {
 
             for (int i = 0; i < lista.size(); i++) {
                 if (lista.get(i).getCurso().getCodigo() == curso.getCodigo()) {
+                    listaResultado.add(lista.get(i));
+                }
+            }
+            return listaResultado;
+
+        } catch (NegocioExeption ex) {
+            throw new NegocioExeption("Erro ao buscar os disciplinas relacionadas a curso relacionados ao curso" + ex.getMessage());
+        }
+    }
+
+    public List<DisciplinaVO> buscaTodosDisciplinasDeAluno(AlunoVO aluno) throws NegocioExeption {
+        try {
+            List<DisciplinaVO> lista = buscaTodasDisciplinas();
+            List<DisciplinaVO> listaResultado = new ArrayList();
+
+            for (int i = 0; i < lista.size(); i++) {
+                if (lista.get(i).getCurso().getCodigo() == aluno.getCurso().getCodigo()) {
                     listaResultado.add(lista.get(i));
                 }
             }

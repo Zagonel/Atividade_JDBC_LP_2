@@ -499,8 +499,9 @@ public class Principal {
                     + "|  5 - Pesquisar por Codigo\n"
                     + "|  6 - Pesquisar todas Disciplinas\n"
                     + "|  7 - Pesquisar todas Disciplinas de um Curso\n"
-                    + "|  8 - Voltar Menu Principal\n"
-                    + "|  9 - Sair\n"
+                    + "|  8 - Pesquisar todas Disciplinas do Curso do Aluno\n"
+                    + "|  9 - Voltar Menu Principal\n"
+                    + "|  10 - Sair\n"
                     + "|--------------------------------------------------------------|\n\n"
                     + "Digite a opção requerida:"));
         } catch (NumberFormatException e) {
@@ -539,9 +540,13 @@ public class Principal {
                 menuDisciplina();
                 break;
             case 8:
-                menuPrincipal();
+                buscarTodasDisciplinasDeAluno();
+                menuDisciplina();
                 break;
             case 9:
+                menuPrincipal();
+                break;
+            case 10:
                 System.exit(0);
                 break;
             default:
@@ -673,11 +678,35 @@ public class Principal {
 
             CursoNegocio cursoAux = new CursoNegocio();
             DisciplinaNegocio disciplina = new DisciplinaNegocio();
-            curso = (CursoVO) JOptionPane.showInputDialog(null, "Escolha o curso do Aluno", "Leitura de Dados", JOptionPane.QUESTION_MESSAGE, null, cursoAux.buscaTodosCursos().toArray(), curso.getCodigo());
+            curso = (CursoVO) JOptionPane.showInputDialog(null, "Escolha o aluno", "Leitura de Dados", JOptionPane.QUESTION_MESSAGE, null, cursoAux.buscaTodosCursos().toArray(), curso.getCodigo());
 
             List<DisciplinaVO> listaResultado = new ArrayList();
 
             listaResultado = disciplina.buscaTodosDisciplinasDeCurso(curso);
+
+            for (int i = 0; i < listaResultado.size(); i++) {
+                System.out.println(listaResultado.get(i));
+            }
+
+        } catch (NegocioExeption ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void buscarTodasDisciplinasDeAluno() {
+        
+        try {
+            AlunoVO aluno = new AlunoVO();
+            DisciplinaNegocio disciplina = new DisciplinaNegocio();
+            AlunoNegocio alunoNegocio = new AlunoNegocio();
+            
+            int matricula = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite a matricula do aluno"));
+            
+            aluno = alunoNegocio.pesquisarPorMatricula(matricula);
+
+            List<DisciplinaVO> listaResultado = new ArrayList();
+
+            listaResultado = disciplina.buscaTodosDisciplinasDeAluno(aluno);
 
             for (int i = 0; i < listaResultado.size(); i++) {
                 System.out.println(listaResultado.get(i));
